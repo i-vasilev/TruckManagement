@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.database.repository.UnitRepository;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
-import ru.vasilev.webinnovations.truckManagement.exceptions.UnitNotFoundException;
+import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -50,7 +50,7 @@ public class UnitController {
     private Unit getUnit(int id) {
         final Unit unit = unitRepository.findById(id);
         if (unit == null) {
-            throw new UnitNotFoundException("Unit is not found");
+            throw new EntityNotFoundException("Unit is not found");
         }
         return unit;
     }

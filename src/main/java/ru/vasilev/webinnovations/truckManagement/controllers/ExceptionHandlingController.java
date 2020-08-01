@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.vasilev.webinnovations.truckManagement.data.ErrorDetails;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
-import ru.vasilev.webinnovations.truckManagement.exceptions.UnitNotFoundException;
+import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 
 import java.util.Date;
 
@@ -17,15 +17,8 @@ import java.util.Date;
 @ControllerAdvice
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(FieldsIsAbsentException.class)
+    @ExceptionHandler(RuntimeException.class)
     public final ResponseEntity<ErrorDetails> handleUserNotFoundException(FieldsIsAbsentException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UnitNotFoundException.class)
-    public final ResponseEntity<ErrorDetails> handleUnitNotFoundException(UnitNotFoundException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
