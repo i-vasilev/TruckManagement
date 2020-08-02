@@ -12,8 +12,7 @@ public class Bodywork {
     @ManyToOne
     private Brand brand;
 
-    @ManyToOne
-    private Model model;
+    private String model;
 
     public int getId() {
         return id;
@@ -31,11 +30,11 @@ public class Bodywork {
         this.brand = brand;
     }
 
-    public Model getModel() {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
+    public void setModel(String model) {
         this.model = model;
     }
 }
