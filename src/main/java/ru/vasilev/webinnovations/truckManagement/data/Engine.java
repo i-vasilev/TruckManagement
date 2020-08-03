@@ -14,6 +14,8 @@ public class Engine {
 
     private String name;
 
+    private int power;
+
     public int getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class Engine {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 }
