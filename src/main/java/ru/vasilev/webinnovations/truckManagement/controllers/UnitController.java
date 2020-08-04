@@ -4,15 +4,15 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
-import ru.vasilev.webinnovations.truckManagement.service.UnitServiceImpl;
+import ru.vasilev.webinnovations.truckManagement.service.UnitService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class UnitController {
-    private final UnitServiceImpl managementService;
+    private final UnitService managementService;
 
-    public UnitController(UnitServiceImpl managementService) {
+    public UnitController(UnitService managementService) {
         this.managementService = managementService;
     }
 

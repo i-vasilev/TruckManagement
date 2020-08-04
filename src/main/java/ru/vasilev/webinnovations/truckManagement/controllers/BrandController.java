@@ -3,16 +3,16 @@ package ru.vasilev.webinnovations.truckManagement.controllers;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Brand;
-import ru.vasilev.webinnovations.truckManagement.service.BrandServiceImpl;
+import ru.vasilev.webinnovations.truckManagement.service.BrandService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class BrandController {
-    private final BrandServiceImpl brandService;
+    private final BrandService brandService;
 
 
-    public BrandController(BrandServiceImpl brandService) {
+    public BrandController(BrandService brandService) {
         this.brandService = brandService;
     }
 
