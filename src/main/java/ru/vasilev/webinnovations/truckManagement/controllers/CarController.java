@@ -9,18 +9,20 @@ import ru.vasilev.webinnovations.truckManagement.database.repository.CarReposito
 import ru.vasilev.webinnovations.truckManagement.database.repository.EngineRepository;
 import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
+import ru.vasilev.webinnovations.truckManagement.service.UnitServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/car")
 public class CarController {
+    private final UnitServiceImpl managementService;
     private final CarRepository carRepository;
     private final EngineRepository engineRepository;
     private final BodyworkRepository bodyworkRepository;
 
-    public CarController(CarRepository carRepository, EngineRepository engineRepository, BodyworkRepository bodyworkRepository) {
+    public CarController(UnitServiceImpl managementService, CarRepository carRepository, EngineRepository engineRepository, BodyworkRepository bodyworkRepository) {
+        this.managementService = managementService;
         this.carRepository = carRepository;
         this.engineRepository = engineRepository;
         this.bodyworkRepository = bodyworkRepository;
@@ -38,13 +40,13 @@ public class CarController {
 
     @PostMapping
     public Car addCar(HttpServletRequest request) {
-        final String engineIdStr = getParameter(request, "engine_id");
+        final String engineIdStr = managementService.getParameter(request, "engine_id");
         final int engineId = Integer.parseInt(engineIdStr);
         final Engine engine = engineRepository.getEngineById(engineId);
         if (engine == null) {
             throw new EntityNotFoundException("Engine is not found!");
         }
-        final String bodyworkIdStr = getParameter(request, "bodywork_id");
+        final String bodyworkIdStr = managementService.getParameter(request, "bodywork_id");
         final int bodyworkId = Integer.parseInt(bodyworkIdStr);
         final Bodywork bodywork = bodyworkRepository.getById(bodyworkId);
         if (bodywork == null) {
@@ -86,13 +88,5 @@ public class CarController {
         }
         carRepository.save(car);
         return car;
-    }
-
-    private String getParameter(HttpServletRequest request, String parameterName) {
-        final String parameter = request.getParameter(parameterName);
-        if (parameter == null) {
-            throw new FieldsIsAbsentException(String.format("Mandatory field \"%s\" is absent", parameter));
-        }
-        return parameter;
     }
 }

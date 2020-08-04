@@ -7,11 +7,9 @@ import ru.vasilev.webinnovations.truckManagement.database.repository.BodyworkRep
 import ru.vasilev.webinnovations.truckManagement.database.repository.BrandRepository;
 import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
+import ru.vasilev.webinnovations.truckManagement.service.UnitServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/bodywork")
@@ -19,10 +17,13 @@ public class BodyworkController {
 
     private final BodyworkRepository bodyworkRepository;
     private final BrandRepository brandRepository;
+    private final UnitServiceImpl managementService;
 
-    public BodyworkController(BodyworkRepository bodyworkRepository, BrandRepository brandRepository) {
+
+    public BodyworkController(BodyworkRepository bodyworkRepository, BrandRepository brandRepository, UnitServiceImpl managementService) {
         this.bodyworkRepository = bodyworkRepository;
         this.brandRepository = brandRepository;
+        this.managementService = managementService;
     }
 
     @GetMapping
@@ -32,9 +33,9 @@ public class BodyworkController {
 
     @PostMapping
     public Bodywork addBodywork(HttpServletRequest request) {
-        final String brandIdStr = getBrand(request, "brand");
+        final String brandIdStr = managementService.getParameter(request, "brand");
         int brandId = Integer.parseInt(brandIdStr);
-        final String model = getBrand(request, "model");
+        final String model = managementService.getParameter(request, "model");
         Brand brand = brandRepository.findBrandById(brandId);
         Bodywork bodywork = new Bodywork();
         bodywork.setModel(model);
@@ -71,13 +72,5 @@ public class BodyworkController {
 
         bodyworkRepository.save(bodywork);
         return bodywork;
-    }
-
-    private String getBrand(HttpServletRequest request, String parameter) {
-        final String brand = request.getParameter(parameter);
-        if (brand == null) {
-            throw new FieldsIsAbsentException(String.format("Mandatory field \"%s\" is absent", parameter));
-        }
-        return brand;
     }
 }

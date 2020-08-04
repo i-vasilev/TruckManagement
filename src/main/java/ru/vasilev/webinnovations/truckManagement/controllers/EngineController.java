@@ -7,18 +7,21 @@ import ru.vasilev.webinnovations.truckManagement.database.repository.EngineRepos
 import ru.vasilev.webinnovations.truckManagement.database.repository.UnitRepository;
 import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
+import ru.vasilev.webinnovations.truckManagement.service.UnitService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/engine")
 public class EngineController {
+    private final UnitService unitService;
     private final EngineRepository engineRepository;
     private final UnitRepository unitRepository;
 
-    public EngineController(EngineRepository engineRepository, UnitRepository unitRepository) {
+    public EngineController(EngineRepository engineRepository, UnitRepository unitRepository, UnitService unitService) {
         this.engineRepository = engineRepository;
         this.unitRepository = unitRepository;
+        this.unitService = unitService;
     }
 
     @GetMapping
@@ -37,10 +40,10 @@ public class EngineController {
 
     @PostMapping
     public Engine addEngine(HttpServletRequest request) {
-        final String name = getParameter(request, "engine_name");
-        final String unitIdStr = getParameter(request, "unit_id");
+        final String name = unitService.getParameter(request, "engine_name");
+        final String unitIdStr = unitService.getParameter(request, "unit_id");
         final int unitId = Integer.parseInt(unitIdStr);
-        final String powerStr = getParameter(request, "power");
+        final String powerStr = unitService.getParameter(request, "power");
         final int power = Integer.parseInt(powerStr);
         final Unit unit = unitRepository.findById(unitId);
         if (unit == null) {
@@ -82,13 +85,5 @@ public class EngineController {
 
         engineRepository.save(engine);
         return engine;
-    }
-
-    private String getParameter(HttpServletRequest request, String parameter) {
-        final String brand = request.getParameter(parameter);
-        if (brand == null) {
-            throw new FieldsIsAbsentException(String.format("Mandatory field \"%s\" is absent", parameter));
-        }
-        return brand;
     }
 }
