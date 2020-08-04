@@ -4,7 +4,6 @@ import ru.vasilev.webinnovations.truckManagement.data.Bodywork;
 import ru.vasilev.webinnovations.truckManagement.data.Car;
 import ru.vasilev.webinnovations.truckManagement.data.Engine;
 import ru.vasilev.webinnovations.truckManagement.database.repository.CarRepository;
-import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,10 +43,7 @@ public class CarServiceImpl extends HttpRequestServiceImpl implements CarService
 
     @Override
     public Car updateCar(int id, HttpServletRequest request) {
-        final Car car = carRepository.findCarById(id);
-        if (car == null) {
-            throw new EntityNotFoundException("Car is not found");
-        }
+        final Car car = getCar(id);
         if (request.getParameterMap().isEmpty()) {
             throw new FieldsIsAbsentException("At least one of the parameters mustn't be empty!");
         }
@@ -55,6 +51,7 @@ public class CarServiceImpl extends HttpRequestServiceImpl implements CarService
         if (engineIdStr != null) {
             final int engineId = Integer.parseInt(engineIdStr);
             final Engine engine = engineService.getEngine(engineId);
+            car.setEngine(engine);
         }
         final String bodyworkIdStr = request.getParameter("bodywork_id");
         if (bodyworkIdStr != null) {
