@@ -13,10 +13,10 @@ public interface BodyworkService extends HttpRequestService {
     /**
      * Executes adding bodywork into database.
      *
-     * @param model bodywork's model.
+     * @param request user's request.
      * @return new bodywork from db.
      */
-    Bodywork addBodywork(String model, Brand brand);
+    Bodywork addBodywork(HttpServletRequest request);
 
     /**
      * Gets bodywork by its id.
@@ -33,7 +33,7 @@ public interface BodyworkService extends HttpRequestService {
      * @param request  User's request.
      * @return Updated bodywork.
      */
-    public Bodywork updateBodywork(Bodywork bodywork, HttpServletRequest request);
+    Bodywork updateBodywork(Bodywork bodywork, HttpServletRequest request);
 
     /**
      * Gets iterable collection, that contains all bodyworks in database.

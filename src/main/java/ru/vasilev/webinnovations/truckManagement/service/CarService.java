@@ -1,5 +1,6 @@
 package ru.vasilev.webinnovations.truckManagement.service;
 
+import org.springframework.http.ResponseEntity;
 import ru.vasilev.webinnovations.truckManagement.data.Car;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,7 @@ public interface CarService extends HttpRequestService {
     /**
      * Executes adding into database.
      *
-     * @param brandName car's name.
+     * @param request User's request.
      * @return new brand from db.
      */
     Car addCar(HttpServletRequest request);

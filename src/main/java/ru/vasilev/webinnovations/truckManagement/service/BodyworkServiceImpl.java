@@ -25,11 +25,15 @@ public class BodyworkServiceImpl extends HttpRequestServiceImpl implements Bodyw
     /**
      * Executes adding bodywork into database.
      *
-     * @param model bodywork's model.
+     * @param request user's request.
      * @return new bodywork from db.
      */
     @Override
-    public Bodywork addBodywork(String model, Brand brand) {
+    public Bodywork addBodywork(HttpServletRequest request) {
+        final String brandIdStr = getParameter(request, "brand");
+        int brandId = Integer.parseInt(brandIdStr);
+        final String model = getParameter(request, "model");
+        Brand brand = brandService.getBrand(brandId);
         Bodywork bodywork = new Bodywork();
         bodywork.setModel(model);
         bodywork.setBrand(brand);
@@ -52,7 +56,6 @@ public class BodyworkServiceImpl extends HttpRequestServiceImpl implements Bodyw
         return bodywork;
     }
 
-    @Override
     /**
      * Updates bodywork in db.
      *
@@ -60,6 +63,7 @@ public class BodyworkServiceImpl extends HttpRequestServiceImpl implements Bodyw
      * @param request  User's request.
      * @return Updated bodywork.
      */
+    @Override
     public Bodywork updateBodywork(Bodywork bodywork, HttpServletRequest request) {
         if (request.getParameterMap().isEmpty()) {
             throw new FieldsIsAbsentException("At least one of the parameters mustn't be empty!");

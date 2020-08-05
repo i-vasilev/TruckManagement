@@ -1,10 +1,9 @@
 package ru.vasilev.webinnovations.truckManagement.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Car;
-import ru.vasilev.webinnovations.truckManagement.database.repository.BodyworkRepository;
-import ru.vasilev.webinnovations.truckManagement.database.repository.CarRepository;
-import ru.vasilev.webinnovations.truckManagement.database.repository.EngineRepository;
 import ru.vasilev.webinnovations.truckManagement.service.CarService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,22 +18,26 @@ public class CarController {
     }
 
     @GetMapping
-    public Iterable<Car> getAllCars() {
-        return carService.getAllCars();
+    public ResponseEntity<Iterable<Car>> getAllCars() {
+        final Iterable<Car> allCars = carService.getAllCars();
+        return new ResponseEntity<>(allCars, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Car getCar(@PathVariable int id) {
-        return carService.getCar(id);
+    public ResponseEntity<Car> getCar(@PathVariable int id) {
+        final Car car = carService.getCar(id);
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
     @PostMapping
-    public Car addCar(HttpServletRequest request) {
-        return carService.addCar(request);
+    public ResponseEntity<Car> addCar(HttpServletRequest request) {
+        final Car car = carService.addCar(request);
+        return new ResponseEntity<>(car, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Car updateCar(@PathVariable("id") int id, HttpServletRequest request) {
-        return carService.updateCar(id, request);
+    public ResponseEntity<Car> updateCar(@PathVariable("id") int id, HttpServletRequest request) {
+        final Car car = carService.updateCar(id, request);
+        return new ResponseEntity<>(car, HttpStatus.ACCEPTED);
     }
 }

@@ -1,9 +1,10 @@
 package ru.vasilev.webinnovations.truckManagement.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Bodywork;
 import ru.vasilev.webinnovations.truckManagement.data.Brand;
-import ru.vasilev.webinnovations.truckManagement.database.repository.BodyworkRepository;
 import ru.vasilev.webinnovations.truckManagement.database.repository.BrandRepository;
 import ru.vasilev.webinnovations.truckManagement.service.BodyworkService;
 
@@ -13,41 +14,36 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/bodywork")
 public class BodyworkController {
 
-    private final BodyworkRepository bodyworkRepository;
-    private final BrandRepository brandRepository;
     private final BodyworkService bodyworkService;
 
 
-    public BodyworkController(BodyworkRepository bodyworkRepository, BrandRepository brandRepository, BodyworkService bodyworkService) {
-        this.bodyworkRepository = bodyworkRepository;
-        this.brandRepository = brandRepository;
+    public BodyworkController(BodyworkService bodyworkService) {
         this.bodyworkService = bodyworkService;
     }
 
     @GetMapping
-    public Iterable<Bodywork> getAllBodyworks() {
-        return bodyworkService.getAllBodywork();
+    public ResponseEntity<Iterable<Bodywork>> getAllBodyworks() {
+        final Iterable<Bodywork> allBodywork = bodyworkService.getAllBodywork();
+        return new ResponseEntity<>(allBodywork, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Bodywork getBodywork(@PathVariable int id) {
-        return bodyworkService.getBodywork(id);
+    public ResponseEntity<Bodywork> getBodywork(@PathVariable int id) {
+        final Bodywork bodywork = bodyworkService.getBodywork(id);
+        return new ResponseEntity<>(bodywork, HttpStatus.OK);
     }
 
 
     @PostMapping
-    public Bodywork addBodywork(HttpServletRequest request) {
-        final String brandIdStr = bodyworkService.getParameter(request, "brand");
-        int brandId = Integer.parseInt(brandIdStr);
-        final String model = bodyworkService.getParameter(request, "model");
-        Brand brand = brandRepository.findBrandById(brandId);
-        return bodyworkService.addBodywork(model, brand);
+    public ResponseEntity<Bodywork> addBodywork(HttpServletRequest request) {
+        final Bodywork bodywork = bodyworkService.addBodywork(request);
+        return new ResponseEntity<>(bodywork, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Bodywork updateBodywork(HttpServletRequest request, @PathVariable int id) {
-        final Bodywork bodywork = bodyworkService.getBodywork(id);
-        bodyworkService.updateBodywork(bodywork, request);
-        return bodywork;
+    public ResponseEntity<Bodywork> updateBodywork(HttpServletRequest request, @PathVariable int id) {
+        Bodywork bodywork = bodyworkService.getBodywork(id);
+        bodywork = bodyworkService.updateBodywork(bodywork, request);
+        return new ResponseEntity<>(bodywork, HttpStatus.ACCEPTED);
     }
 }

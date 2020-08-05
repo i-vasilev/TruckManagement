@@ -1,6 +1,8 @@
 package ru.vasilev.webinnovations.truckManagement.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
@@ -17,26 +19,29 @@ public class UnitController {
     }
 
     @GetMapping("/unit")
-    public Iterable<Unit> getAllUnits() {
-        return managementService.getAllUnits();
+    public ResponseEntity<Iterable<Unit>> getAllUnits() {
+        final Iterable<Unit> allUnits = managementService.getAllUnits();
+        return new ResponseEntity<>(allUnits, HttpStatus.OK);
     }
 
     @PostMapping(value = "/unit", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Unit addUnit(HttpServletRequest request) throws FieldsIsAbsentException {
+    public ResponseEntity<Unit> addUnit(HttpServletRequest request) throws FieldsIsAbsentException {
         final String unitName = managementService.getParameter(request, "unit_name");
 
-        return managementService.addUnit(unitName);
+        final Unit unit = managementService.addUnit(unitName);
+        return new ResponseEntity<>(unit, HttpStatus.CREATED);
     }
 
     @GetMapping("/unit/{id}")
-    public Unit getUnitById(@PathVariable("id") int id) {
-        return managementService.getUnit(id);
+    public ResponseEntity<Unit> getUnitById(@PathVariable("id") int id) {
+        final Unit unit = managementService.getUnit(id);
+        return new ResponseEntity<>(unit, HttpStatus.CREATED);
     }
 
     @PutMapping("/unit/{id}")
-    public Unit updateUnit(HttpServletRequest request, @PathVariable("id") int id) {
+    public ResponseEntity<Unit> updateUnit(HttpServletRequest request, @PathVariable("id") int id) {
         final String unitName = managementService.getParameter(request, "unit_name");
-        return managementService.updateUnit(id, unitName);
+        return new ResponseEntity<>(managementService.updateUnit(id, unitName), HttpStatus.ACCEPTED);
     }
 
 }

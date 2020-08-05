@@ -1,5 +1,7 @@
 package ru.vasilev.webinnovations.truckManagement.service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import ru.vasilev.webinnovations.truckManagement.data.Engine;
 import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.database.repository.EngineRepository;
@@ -42,7 +44,7 @@ public class EngineServiceImpl extends HttpRequestServiceImpl implements EngineS
         engine.setUnit(unit);
         engine.setPower(power);
         engineRepository.save(engine);
-        return null;
+        return engine;
     }
 
     /**

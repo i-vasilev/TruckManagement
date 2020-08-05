@@ -1,9 +1,9 @@
 package ru.vasilev.webinnovations.truckManagement.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Engine;
-import ru.vasilev.webinnovations.truckManagement.database.repository.EngineRepository;
-import ru.vasilev.webinnovations.truckManagement.database.repository.UnitRepository;
 import ru.vasilev.webinnovations.truckManagement.service.EngineService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,33 +12,33 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/engine")
 public class EngineController {
     private final EngineService engineService;
-    private final EngineRepository engineRepository;
-    private final UnitRepository unitRepository;
 
-    public EngineController(EngineRepository engineRepository, UnitRepository unitRepository, EngineService engineService) {
-        this.engineRepository = engineRepository;
-        this.unitRepository = unitRepository;
+    public EngineController(EngineService engineService) {
         this.engineService = engineService;
     }
 
     @GetMapping
-    public Iterable<Engine> getAllEngines() {
-        return engineService.getAllEngines();
+    public ResponseEntity<Iterable<Engine>> getAllEngines() {
+        final Iterable<Engine> allEngines = engineService.getAllEngines();
+        return new ResponseEntity<>(allEngines, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Engine getEngine(@PathVariable int id) {
-        return engineService.getEngine(id);
+    public ResponseEntity<Engine> getEngine(@PathVariable int id) {
+        final Engine engine = engineService.getEngine(id);
+        return new ResponseEntity<>(engine, HttpStatus.OK);
     }
 
     @PostMapping
-    public Engine addEngine(HttpServletRequest request) {
-        return engineService.addEngine(request);
+    public ResponseEntity<Engine> addEngine(HttpServletRequest request) {
+        final Engine engine = engineService.addEngine(request);
+        return new ResponseEntity<>(engine, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Engine updateEngine(HttpServletRequest request, @PathVariable int id) {
-        final Engine engine = engineService.getEngine(id);
-        return engineService.updateEngine(engine, request);
+    public ResponseEntity<Engine> updateEngine(HttpServletRequest request, @PathVariable int id) {
+        Engine engine = engineService.getEngine(id);
+        engine = engineService.updateEngine(engine, request);
+        return new ResponseEntity<>(engine, HttpStatus.ACCEPTED);
     }
 }
