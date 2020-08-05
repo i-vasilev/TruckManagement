@@ -18,7 +18,7 @@ public class BrandController {
         this.brandService = brandService;
     }
 
-    @GetMapping("/brand")
+    @GetMapping(value = "/brand", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Brand>> getAllBrands() {
         final Iterable<Brand> allBrands = brandService.getAllBrands();
         return new ResponseEntity<>(allBrands, HttpStatus.OK);
@@ -31,13 +31,13 @@ public class BrandController {
         return new ResponseEntity<>(brand, HttpStatus.CREATED);
     }
 
-    @GetMapping("/brand/{id}")
+    @GetMapping(value = "/brand/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Brand> getBrand(@PathVariable int id) {
         final Brand brand = brandService.getBrand(id);
         return new ResponseEntity<>(brand, HttpStatus.OK);
     }
 
-    @PutMapping("/brand/{id}")
+    @PutMapping(value = "/brand/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Brand> updateBrand(HttpServletRequest request, @PathVariable int id) {
         final String brandName = brandService.getParameter(request, "brand_name");
         final Brand brand = brandService.updateBrand(id, brandName);

@@ -18,7 +18,7 @@ public class UnitController {
         this.managementService = managementService;
     }
 
-    @GetMapping("/unit")
+    @GetMapping(value = "/unit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Unit>> getAllUnits() {
         final Iterable<Unit> allUnits = managementService.getAllUnits();
         return new ResponseEntity<>(allUnits, HttpStatus.OK);
@@ -32,13 +32,13 @@ public class UnitController {
         return new ResponseEntity<>(unit, HttpStatus.CREATED);
     }
 
-    @GetMapping("/unit/{id}")
+    @GetMapping(value = "/unit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Unit> getUnitById(@PathVariable("id") int id) {
         final Unit unit = managementService.getUnit(id);
         return new ResponseEntity<>(unit, HttpStatus.CREATED);
     }
 
-    @PutMapping("/unit/{id}")
+    @PutMapping(value = "/unit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Unit> updateUnit(HttpServletRequest request, @PathVariable("id") int id) {
         final String unitName = managementService.getParameter(request, "unit_name");
         return new ResponseEntity<>(managementService.updateUnit(id, unitName), HttpStatus.ACCEPTED);
