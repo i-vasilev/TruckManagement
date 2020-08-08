@@ -6,7 +6,7 @@ import ru.vasilev.webinnovations.truckManagement.database.repository.UnitReposit
 import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 
 @Service
-public class UnitServiceImpl extends HttpRequestServiceImpl implements UnitService {
+public class UnitServiceImpl implements UnitService {
     private final UnitRepository unitRepository;
 
     public UnitServiceImpl(UnitRepository unitRepository) {

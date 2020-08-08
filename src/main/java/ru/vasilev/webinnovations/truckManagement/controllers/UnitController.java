@@ -6,12 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
+import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 import ru.vasilev.webinnovations.truckManagement.service.UnitService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class UnitController {
+public class UnitController extends HttpRequestServiceImpl {
     private final UnitService managementService;
 
     public UnitController(UnitService managementService) {
@@ -26,7 +27,7 @@ public class UnitController {
 
     @PostMapping(value = "/unit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Unit> addUnit(HttpServletRequest request) throws FieldsIsAbsentException {
-        final String unitName = managementService.getParameter(request, "unit_name");
+        final String unitName = getParameter(request, "unit_name");
 
         final Unit unit = managementService.addUnit(unitName);
         return new ResponseEntity<>(unit, HttpStatus.CREATED);
@@ -35,12 +36,12 @@ public class UnitController {
     @GetMapping(value = "/unit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Unit> getUnitById(@PathVariable("id") int id) {
         final Unit unit = managementService.getUnit(id);
-        return new ResponseEntity<>(unit, HttpStatus.CREATED);
+        return new ResponseEntity<>(unit, HttpStatus.OK);
     }
 
     @PutMapping(value = "/unit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Unit> updateUnit(HttpServletRequest request, @PathVariable("id") int id) {
-        final String unitName = managementService.getParameter(request, "unit_name");
+        final String unitName = getParameter(request, "unit_name");
         return new ResponseEntity<>(managementService.updateUnit(id, unitName), HttpStatus.ACCEPTED);
     }
 

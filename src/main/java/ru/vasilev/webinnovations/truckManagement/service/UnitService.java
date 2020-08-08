@@ -5,7 +5,7 @@ import ru.vasilev.webinnovations.truckManagement.data.Unit;
 /**
  * Interface for service that works with unit entity.
  */
-public interface UnitService extends HttpRequestService {
+public interface UnitService {
     /**
      * Executes adding into database.
      *
