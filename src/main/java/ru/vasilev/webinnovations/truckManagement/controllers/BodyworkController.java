@@ -9,13 +9,12 @@ import ru.vasilev.webinnovations.truckManagement.data.Brand;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
 import ru.vasilev.webinnovations.truckManagement.service.BodyworkService;
 import ru.vasilev.webinnovations.truckManagement.service.BrandService;
-import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @RequestMapping("/bodywork")
-public class BodyworkController extends HttpRequestServiceImpl {
+public class BodyworkController extends RestController {
 
     private final BodyworkService bodyworkService;
     private final BrandService brandService;

@@ -9,11 +9,9 @@ import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundExcept
  */
 public class EngineServiceImpl implements EngineService {
     private final EngineRepository engineRepository;
-    private final UnitService unitService;
 
-    public EngineServiceImpl(EngineRepository engineRepository, UnitService unitService) {
+    public EngineServiceImpl(EngineRepository engineRepository) {
         this.engineRepository = engineRepository;
-        this.unitService = unitService;
     }
 
     /**

@@ -9,14 +9,13 @@ import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
 import ru.vasilev.webinnovations.truckManagement.service.EngineService;
-import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 import ru.vasilev.webinnovations.truckManagement.service.UnitService;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @RequestMapping("/engine")
-public class EngineController extends HttpRequestServiceImpl {
+public class EngineController extends RestController {
     private final EngineService engineService;
     private final UnitService unitService;
 

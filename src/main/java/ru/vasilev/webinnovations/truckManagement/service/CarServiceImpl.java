@@ -1,35 +1,47 @@
 package ru.vasilev.webinnovations.truckManagement.service;
 
-import ru.vasilev.webinnovations.truckManagement.data.Bodywork;
 import ru.vasilev.webinnovations.truckManagement.data.Car;
-import ru.vasilev.webinnovations.truckManagement.data.Engine;
 import ru.vasilev.webinnovations.truckManagement.database.repository.CarRepository;
-import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
 
-import javax.servlet.http.HttpServletRequest;
-
+/**
+ * Service that works with brand entity.
+ */
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
-    private final EngineService engineService;
-    private final BodyworkService bodyworkService;
 
-    public CarServiceImpl(CarRepository carRepository, EngineService engineService, BodyworkService bodyworkService) {
+    public CarServiceImpl(CarRepository carRepository) {
         this.carRepository = carRepository;
-        this.engineService = engineService;
-        this.bodyworkService = bodyworkService;
     }
 
+    /**
+     * Executes adding into database.
+     *
+     * @param car Entity for inserting into database.
+     * @return new brand from db.
+     */
     @Override
     public Car addCar(Car car) {
         carRepository.save(car);
         return car;
     }
 
+    /**
+     * Gets car by its id.
+     *
+     * @param id car's id.
+     * @return car with id.
+     */
     @Override
     public Car getCar(int id) {
         return carRepository.findCarById(id);
     }
 
+    /**
+     * Updates car in database.
+     *
+     * @param car Entity that updates in database.
+     * @return updated car.
+     */
     @Override
     public Car updateCar(Car car) {
 
@@ -37,6 +49,11 @@ public class CarServiceImpl implements CarService {
         return car;
     }
 
+    /**
+     * Gets iterable collection, that contains all cars in database.
+     *
+     * @return all cars in database.
+     */
     @Override
     public Iterable<Car> getAllCars() {
         return carRepository.findAll();

@@ -11,11 +11,9 @@ import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundExcept
 @Service
 public class BodyworkServiceImpl implements BodyworkService {
     private final BodyworkRepository bodyworkRepository;
-    private final BrandService brandService;
 
-    public BodyworkServiceImpl(BodyworkRepository bodyworkRepository, BrandService brandService) {
+    public BodyworkServiceImpl(BodyworkRepository bodyworkRepository) {
         this.bodyworkRepository = bodyworkRepository;
-        this.brandService = brandService;
     }
 
     /**

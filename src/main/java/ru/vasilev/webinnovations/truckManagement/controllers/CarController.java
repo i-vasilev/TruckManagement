@@ -11,13 +11,12 @@ import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentExcept
 import ru.vasilev.webinnovations.truckManagement.service.BodyworkService;
 import ru.vasilev.webinnovations.truckManagement.service.CarService;
 import ru.vasilev.webinnovations.truckManagement.service.EngineService;
-import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @RequestMapping("/car")
-public class CarController extends HttpRequestServiceImpl {
+public class CarController extends RestController {
     private final CarService carService;
     private final EngineService engineService;
     private final BodyworkService bodyworkService;

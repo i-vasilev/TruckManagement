@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.vasilev.webinnovations.truckManagement.data.Unit;
 
 /**
- * Repository for working with {@link Unit} entity
+ * Repository for working with {@link Unit} entity.
  */
 @Repository
 public interface UnitRepository extends CrudRepository<Unit, Integer> {

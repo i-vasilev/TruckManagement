@@ -2,8 +2,6 @@ package ru.vasilev.webinnovations.truckManagement.service;
 
 import ru.vasilev.webinnovations.truckManagement.data.Car;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Interface for service that works with brand entity.
  */
@@ -27,7 +25,7 @@ public interface CarService {
     /**
      * Updates car in database.
      *
-     * @param request user's HTTP request.
+     * @param car Entity that updates in database.
      * @return updated car.
      */
     Car updateCar(Car car);

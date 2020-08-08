@@ -1,4 +1,4 @@
-package ru.vasilev.webinnovations.truckManagement.service;
+package ru.vasilev.webinnovations.truckManagement.controllers;
 
 import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Abstract class for working with http requests.
  */
-public abstract class HttpRequestServiceImpl implements HttpRequestService {
+public abstract class RestController {
     /**
      * Gets parameter by its name from request.
      *

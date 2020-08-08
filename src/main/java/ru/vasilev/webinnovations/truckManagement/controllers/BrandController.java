@@ -6,12 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Brand;
 import ru.vasilev.webinnovations.truckManagement.service.BrandService;
-import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
-public class BrandController extends HttpRequestServiceImpl {
+@org.springframework.web.bind.annotation.RestController
+public class BrandController extends RestController {
     private final BrandService brandService;
 
 
