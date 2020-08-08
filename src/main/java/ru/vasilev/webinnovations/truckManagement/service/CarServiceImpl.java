@@ -8,7 +8,7 @@ import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentExcept
 
 import javax.servlet.http.HttpServletRequest;
 
-public class CarServiceImpl extends HttpRequestServiceImpl implements CarService {
+public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final EngineService engineService;
     private final BodyworkService bodyworkService;
@@ -20,18 +20,7 @@ public class CarServiceImpl extends HttpRequestServiceImpl implements CarService
     }
 
     @Override
-    public Car addCar(HttpServletRequest request) {
-        final String engineIdStr = getParameter(request, "engine_id");
-        final int engineId = Integer.parseInt(engineIdStr);
-        final Engine engine = engineService.getEngine(engineId);
-
-        final String bodyworkIdStr = getParameter(request, "bodywork_id");
-        final int bodyworkId = Integer.parseInt(bodyworkIdStr);
-        final Bodywork bodywork = bodyworkService.getBodywork(bodyworkId);
-
-        final Car car = new Car();
-        car.setBodywork(bodywork);
-        car.setEngine(engine);
+    public Car addCar(Car car) {
         carRepository.save(car);
         return car;
     }
@@ -42,23 +31,8 @@ public class CarServiceImpl extends HttpRequestServiceImpl implements CarService
     }
 
     @Override
-    public Car updateCar(int id, HttpServletRequest request) {
-        final Car car = getCar(id);
-        if (request.getParameterMap().isEmpty()) {
-            throw new FieldsIsAbsentException("At least one of the parameters mustn't be empty!");
-        }
-        final String engineIdStr = request.getParameter("engine_id");
-        if (engineIdStr != null) {
-            final int engineId = Integer.parseInt(engineIdStr);
-            final Engine engine = engineService.getEngine(engineId);
-            car.setEngine(engine);
-        }
-        final String bodyworkIdStr = request.getParameter("bodywork_id");
-        if (bodyworkIdStr != null) {
-            final int bodyworkId = Integer.parseInt(bodyworkIdStr);
-            final Bodywork bodywork = bodyworkService.getBodywork(bodyworkId);
-            car.setBodywork(bodywork);
-        }
+    public Car updateCar(Car car) {
+
         carRepository.save(car);
         return car;
     }
