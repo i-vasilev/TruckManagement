@@ -1,4 +1,4 @@
-package ru.vasilev.webinnovations.truckManagement;
+package ru.vasilev.webinnovations.truckManagement.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

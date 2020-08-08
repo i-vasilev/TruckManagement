@@ -9,7 +9,7 @@ import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundExcept
  * Service that works with brand entity.
  */
 @Service
-public class BrandServiceImpl extends HttpRequestServiceImpl implements BrandService {
+public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
 
     public BrandServiceImpl(BrandRepository brandRepository) {

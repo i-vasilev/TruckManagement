@@ -5,7 +5,7 @@ import ru.vasilev.webinnovations.truckManagement.data.Brand;
 /**
  * Interface for service that works with brand entity.
  */
-public interface BrandService extends HttpRequestService {
+public interface BrandService {
     /**
      * Executes adding into database.
      *

@@ -6,11 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Brand;
 import ru.vasilev.webinnovations.truckManagement.service.BrandService;
+import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class BrandController {
+public class BrandController extends HttpRequestServiceImpl {
     private final BrandService brandService;
 
 
@@ -26,7 +27,7 @@ public class BrandController {
 
     @PostMapping(value = "/brand", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Brand> addBrand(HttpServletRequest request) {
-        final String brandName = brandService.getParameter(request, "brand_name");
+        final String brandName = getParameter(request, "brand_name");
         final Brand brand = brandService.addBrand(brandName);
         return new ResponseEntity<>(brand, HttpStatus.CREATED);
     }
@@ -39,7 +40,7 @@ public class BrandController {
 
     @PutMapping(value = "/brand/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Brand> updateBrand(HttpServletRequest request, @PathVariable int id) {
-        final String brandName = brandService.getParameter(request, "brand_name");
+        final String brandName = getParameter(request, "brand_name");
         final Brand brand = brandService.updateBrand(id, brandName);
         return new ResponseEntity<>(brand, HttpStatus.ACCEPTED);
     }
