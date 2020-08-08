@@ -5,19 +5,24 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vasilev.webinnovations.truckManagement.data.Bodywork;
+import ru.vasilev.webinnovations.truckManagement.data.Brand;
+import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
 import ru.vasilev.webinnovations.truckManagement.service.BodyworkService;
+import ru.vasilev.webinnovations.truckManagement.service.BrandService;
+import ru.vasilev.webinnovations.truckManagement.service.HttpRequestServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/bodywork")
-public class BodyworkController {
+public class BodyworkController extends HttpRequestServiceImpl {
 
     private final BodyworkService bodyworkService;
+    private final BrandService brandService;
 
-
-    public BodyworkController(BodyworkService bodyworkService) {
+    public BodyworkController(BodyworkService bodyworkService, BrandService brandService) {
         this.bodyworkService = bodyworkService;
+        this.brandService = brandService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,14 +40,39 @@ public class BodyworkController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Bodywork> addBodywork(HttpServletRequest request) {
-        final Bodywork bodywork = bodyworkService.addBodywork(request);
+        final String brandIdStr = getParameter(request, "brand");
+        int brandId = Integer.parseInt(brandIdStr);
+
+        final String model = getParameter(request, "model");
+        final Brand brand = brandService.getBrand(brandId);
+
+        final Bodywork bodywork = new Bodywork();
+        bodywork.setModel(model);
+        bodywork.setBrand(brand);
+        bodyworkService.addBodywork(bodywork);
+
         return new ResponseEntity<>(bodywork, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Bodywork> updateBodywork(HttpServletRequest request, @PathVariable int id) {
         Bodywork bodywork = bodyworkService.getBodywork(id);
-        bodywork = bodyworkService.updateBodywork(bodywork, request);
+
+        if (request.getParameterMap().isEmpty()) {
+            throw new FieldsIsAbsentException("At least one of the parameters mustn't be empty!");
+        }
+
+        final String model = request.getParameter("model");
+        if (model != null) {
+            bodywork.setModel(model);
+        }
+        final String brandIdStr = request.getParameter("brand");
+        if (brandIdStr != null) {
+            final Brand brand = brandService.getBrand(Integer.parseInt(brandIdStr));
+            bodywork.setBrand(brand);
+        }
+
+        bodywork = bodyworkService.updateBodywork(bodywork);
         return new ResponseEntity<>(bodywork, HttpStatus.ACCEPTED);
     }
 }

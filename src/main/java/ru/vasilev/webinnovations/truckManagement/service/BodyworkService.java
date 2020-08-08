@@ -1,22 +1,21 @@
 package ru.vasilev.webinnovations.truckManagement.service;
 
 import ru.vasilev.webinnovations.truckManagement.data.Bodywork;
-import ru.vasilev.webinnovations.truckManagement.data.Brand;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Interface for service that works with bodywork entity.
  */
-public interface BodyworkService extends HttpRequestService {
+public interface BodyworkService {
 
     /**
      * Executes adding bodywork into database.
      *
-     * @param request user's request.
+     * @param bodywork Entity for inserting into database.
      * @return new bodywork from db.
      */
-    Bodywork addBodywork(HttpServletRequest request);
+    Bodywork addBodywork(Bodywork bodywork);
 
     /**
      * Gets bodywork by its id.
@@ -30,10 +29,9 @@ public interface BodyworkService extends HttpRequestService {
      * Updates bodywork in db.
      *
      * @param bodywork {@link Bodywork} for updating.
-     * @param request  User's request.
      * @return Updated bodywork.
      */
-    Bodywork updateBodywork(Bodywork bodywork, HttpServletRequest request);
+    Bodywork updateBodywork(Bodywork bodywork);
 
     /**
      * Gets iterable collection, that contains all bodyworks in database.
