@@ -1,19 +1,13 @@
 package ru.vasilev.webinnovations.truckManagement.service;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import ru.vasilev.webinnovations.truckManagement.data.Engine;
-import ru.vasilev.webinnovations.truckManagement.data.Unit;
 import ru.vasilev.webinnovations.truckManagement.database.repository.EngineRepository;
 import ru.vasilev.webinnovations.truckManagement.exceptions.EntityNotFoundException;
-import ru.vasilev.webinnovations.truckManagement.exceptions.FieldsIsAbsentException;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Service that works with engine entity.
  */
-public class EngineServiceImpl extends HttpRequestServiceImpl implements EngineService {
+public class EngineServiceImpl implements EngineService {
     private final EngineRepository engineRepository;
     private final UnitService unitService;
 
@@ -25,24 +19,11 @@ public class EngineServiceImpl extends HttpRequestServiceImpl implements EngineS
     /**
      * Executes adding into database.
      *
-     * @param request user's request.
+     * @param engine Entity for inserting into database..
      * @return new engine from db.
      */
     @Override
-    public Engine addEngine(HttpServletRequest request) {
-        final String name = getParameter(request, "engine_name");
-        final String unitIdStr = getParameter(request, "unit_id");
-        final int unitId = Integer.parseInt(unitIdStr);
-        final String powerStr = getParameter(request, "power");
-        final int power = Integer.parseInt(powerStr);
-        final Unit unit = unitService.getUnit(unitId);
-        if (unit == null) {
-            throw new EntityNotFoundException("Unit is not found!");
-        }
-        final Engine engine = new Engine();
-        engine.setName(name);
-        engine.setUnit(unit);
-        engine.setPower(power);
+    public Engine addEngine(Engine engine) {
         engineRepository.save(engine);
         return engine;
     }
@@ -66,28 +47,10 @@ public class EngineServiceImpl extends HttpRequestServiceImpl implements EngineS
      * Updates engine in database.
      *
      * @param engine  engine entity.
-     * @param request user's request.
      * @return updated engine.
      */
     @Override
-    public Engine updateEngine(Engine engine, HttpServletRequest request) {
-        if (request.getParameterMap().isEmpty()) {
-            throw new FieldsIsAbsentException("At least one of the parameters mustn't be empty!");
-        }
-
-        final String unitIdStr = request.getParameter("unit_id");
-        if (unitIdStr != null) {
-            final int unitId = Integer.parseInt(unitIdStr);
-            final Unit unit = unitService.getUnit(unitId);
-            engine.setUnit(unit);
-        }
-
-        final String powerStr = request.getParameter("power");
-        if (powerStr != null) {
-            final int power = Integer.parseInt(powerStr);
-            engine.setPower(power);
-        }
-
+    public Engine updateEngine(Engine engine) {
         engineRepository.save(engine);
         return engine;
     }

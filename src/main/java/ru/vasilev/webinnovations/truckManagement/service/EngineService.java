@@ -2,19 +2,17 @@ package ru.vasilev.webinnovations.truckManagement.service;
 
 import ru.vasilev.webinnovations.truckManagement.data.Engine;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Interface for service that works with engine entity.
  */
-public interface EngineService extends HttpRequestService {
+public interface EngineService {
     /**
      * Executes adding into database.
      *
-     * @param request user's request.
+     * @param engine Entity for inserting into database..
      * @return new engine from db.
      */
-    Engine addEngine(HttpServletRequest request);
+    Engine addEngine(Engine engine);
 
     /**
      * Gets engine by its id.
@@ -28,10 +26,9 @@ public interface EngineService extends HttpRequestService {
      * Updates engine in database.
      *
      * @param engine  engine entity.
-     * @param request user's request.
      * @return updated engine.
      */
-    Engine updateEngine(Engine engine, HttpServletRequest request);
+    Engine updateEngine(Engine engine);
 
     /**
      * Gets iterable collection, that contains all engines in database.
